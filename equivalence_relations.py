@@ -85,9 +85,9 @@ def full_printout():
 
     print(out)
 
-d = 3
-h = 6
-o = 0
+d = 16
+h = 1
+o = 6
 
 p, q, r = negami((d, h, o))
 
@@ -104,5 +104,5 @@ converted = [our(eq) for eq in equiv]
 print("Our:    ", converted)
 
 
-full_printout()
+#full_printout()
 
