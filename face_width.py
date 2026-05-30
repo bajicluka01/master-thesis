@@ -27,12 +27,12 @@ def fw(a, b, c):
         if sgn(c1) != sgn(lb):
             d1 = abs(c1) + abs(lb)
         else:
-            d1 = max(abs(k1*a+l*c), lb)
+            d1 = max(abs(c1), lb)
 
         if sgn(c2) != sgn(lb):
             d2 = abs(c2) + abs(lb)  
         else:
-            d2 = max(abs(k2*a+l*c), lb)
+            d2 = max(abs(c2), lb)
 
         if d1 < upper_bound:
             upper_bound = d1
