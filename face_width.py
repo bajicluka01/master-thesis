@@ -41,7 +41,7 @@ def fw(a, b, c):
     return upper_bound
 
 if __name__ == "__main__":
-    a = 18
+    a = 8
     b = 1
-    c = 11
+    c = 2
     print(fw(a, b, c))

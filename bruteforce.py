@@ -20,13 +20,10 @@ def union(a, b):
 # i and j should be adjacent! 
 # check this before calling the function
 def contract(adj, maxid, i, j):
-    #global maxid
-    #global adj
     newnode = maxid+1
     maxid = maxid+1
-    tmpi = adj.pop(i)
-    tmpj = adj.pop(j)
-    #ij = union(tmpi, tmpj)
+    adj.pop(i)
+    adj.pop(j)
     new_neighbors = set()
     tmp_adj = {}
     for v, neighbors in adj.items():
@@ -161,6 +158,18 @@ def checkall4contractions(adj, maxid, check_which=False):
                                         if check_which:
                                             if is_cycle(complement(c4)):
                                                 print("T9")
+                                                print(c4)
+                                                print("START")
+                                                print(vertices)
+                                                print(vertices[i1-1], vertices[i2-1])
+                                                print(vertices1)
+                                                print(vertices1[i3-1], vertices1[i4-1])
+                                                print(vertices2)
+                                                print(vertices2[i5-1], vertices2[i6-1])
+                                                print(vertices3)
+                                                print(vertices3[i7-1], vertices3[i8-1])
+                                                print(vertices4)
+                                                print("END")
                                             else:
                                                 print("T0")
 
@@ -275,7 +284,7 @@ def checkall5contractions(adj, maxid, check_which=False):
                                                     print(vertices4[i9], vertices4[i10])
                                                     print(vertices5, (i9), (i10))
                                                     print(c5)
-                                                    randfilename = ''.join(random.choice("abcdefghijklmnopqrstuvwxyz0123456789") for _ in range(15))
+                                                    """randfilename = ''.join(random.choice("abcdefghijklmnopqrstuvwxyz0123456789") for _ in range(15))
                                                     f = open(randfilename+".txt", "w")
                                                     f.write(str(vertices)+"\n")
                                                     f.write(str(vertices[i1-1]) + " " + str(vertices[i2-1])+"\n")
@@ -293,7 +302,7 @@ def checkall5contractions(adj, maxid, check_which=False):
                                                     f.write(str(vertices1[i9-1]) + " " + str(vertices1[i10-1])+"\n")
                                                     f.write(str(vertices5)+"\n")
                                                     f.write(str(c5)+"\n")
-                                                    f.close()
+                                                    f.close()"""
                                                     print("END")
 
                                             totalcount += 1
@@ -455,6 +464,321 @@ def checkall6contractions(adj, maxid, check_which=True):
     print("Number of valid contractions found:", n_valid)
     print("Total number of contractions checked:", totalcount)
 
+def checkall7contractions(adj, maxid, check_which=True):
+    vertices = list(adj.keys())
+    totalcount = 0
+    n_valid = 0
+    i1 = 1
+    while i1 <= len(vertices):
+        i2 = i1+1
+        while i2 <= len(vertices):
+            a1 = adj.copy()
+            if vertices[i2-1] not in list(a1[vertices[i1-1]]):
+                i2 += 1
+                continue
+            c1, max1 = contract(a1, maxid, vertices[i1-1], vertices[i2-1])
+            vertices1 = list(c1.keys())
+            i3 = 1
+            while i3 <= len(vertices1):
+                i4 = i3+1
+                while i4 <= len(vertices1):
+                    a2 = a1.copy()
+                    if vertices1[i4-1] not in list(a2[vertices1[i3-1]]):
+                        i4 += 1
+                        continue
+                    c2, max2 = contract(a2, max1, vertices1[i3-1], vertices1[i4-1])
+                    vertices2 = list(c2.keys())
+                    i5 = 1
+                    while i5 <= len(vertices2):
+                        i6 = i5+1
+                        while i6 <= len(vertices2):
+                            a3 = a2.copy()
+                            if vertices2[i6-1] not in list(a3[vertices2[i5-1]]):
+                                i6 += 1
+                                continue
+                            c3, max3 = contract(a3, max2, vertices2[i5-1], vertices2[i6-1])
+                            vertices3 = list(c3.keys())
+                            i7 = 1
+                            while i7 <= len(vertices3):
+                                i8 = i7+1
+                                while i8 <= len(vertices3):
+                                    a4 = a3.copy()
+                                    if vertices3[i8-1] not in list(a4[vertices3[i7-1]]):
+                                        i8 += 1
+                                        continue
+                                    c4, max4 = contract(a4, max3, vertices3[i7-1], vertices3[i8-1])
+                                    vertices4 = list(c4.keys())
+                                    i9 = 1
+                                    while i9 <= len(vertices4):
+                                        i10 = i9+1
+                                        while i10 <= len(vertices4):
+                                            a5 = a4.copy()
+                                            if vertices4[i10-1] not in list(a5[vertices4[i9-1]]):
+                                                i10 += 1
+                                                totalcount += 1
+                                                if totalcount%100000 == 0:
+                                                    print(totalcount)
+                                                continue
+                                            c5, max5 = contract(a5, max4, vertices4[i9-1], vertices4[i10-1])
+                                            vertices5 = list(c5.keys())
+                                            i11 = 1
+                                            while i11 <= len(vertices5):
+                                                i12 = i11+1
+                                                while i12 <= len(vertices5):
+                                                    a6 = a5.copy()
+                                                    if vertices5[i12-1] not in list(a6[vertices5[i11-1]]):
+                                                        i12 += 1
+                                                        totalcount += 1
+                                                        if totalcount%100000 == 0:
+                                                            print(totalcount)
+                                                        continue
+                                                    c6, max6 = contract(a6, max5, vertices5[i11-1], vertices5[i12-1])
+                                                    vertices6 = list(c6.keys())
+                                                    i13 = 1
+                                                    while i13 <= len(vertices6):
+                                                        i14 = i13+1
+                                                        while i14 <= len(vertices6):
+                                                            a7 = a6.copy()
+                                                            if vertices[i14-1] not in list(a7[vertices6[i13-1]]):
+                                                                i14 += 1
+                                                                totalcount +=1
+                                                                if totalcount%100000 == 0:
+                                                                    print(totalcount)
+                                                                continue
+                                                            c7, max7 = contract(a7, max6, vertices6[i13-1], vertices6[i14-1])
+                                                            vertices7 = list(c7.keys())
+
+                                                            if check6regularity(c7):
+                                                                n_valid += 1
+                                                                if check_which:
+                                                                    if is_cycle(complement(c7)):
+                                                                        print("T9")
+                                                                    else:
+                                                                        print("T0")
+                                                                else:
+                                                                    print("START")
+                                                                    print(vertices)
+                                                                    print(vertices[i1-1], vertices[i2-1])
+                                                                    print(vertices1)
+                                                                    print(c1)
+                                                                    print(vertices1[i3-1], vertices1[i4-1])
+                                                                    print(vertices2)
+                                                                    print(c2)
+                                                                    print(vertices2[i5-1], vertices2[i6-1])
+                                                                    print(vertices3)
+                                                                    print(c3)
+                                                                    print(vertices3[i7-1], vertices3[i8-1])
+                                                                    print(vertices4)
+                                                                    print(c4)
+                                                                    print(vertices4[i9-1], vertices4[i10-1])
+                                                                    print(vertices5)
+                                                                    print(c5)
+                                                                    print(vertices5[i11-1], vertices5[i12-1])
+                                                                    print(vertices6)
+                                                                    print(c6)
+                                                                    print(vertices6[i13-1], vertices6[i14-1])
+                                                                    print(vertices7)
+                                                                    print(c7)
+                                                                    """randfilename = ''.join(random.choice("abcdefghijklmnopqrstuvwxyz0123456789") for _ in range(15))
+                                                                    f = open(randfilename+".txt", "w")
+                                                                    f.write(str(vertices)+"\n")
+                                                                    f.write(str(vertices[i1-1]) + " " + str(vertices[i2-1])+"\n")
+                                                                    f.write(str(vertices1)+"\n")
+                                                                    f.write(str(c1)+"\n")
+                                                                    f.write(str(vertices1[i3-1]) + " " + str(vertices1[i4-1])+"\n")
+                                                                    f.write(str(vertices2)+"\n")
+                                                                    f.write(str(c2)+"\n")
+                                                                    f.write(str(vertices2[i5-1]) + " " + str(vertices2[i6-1])+"\n")
+                                                                    f.write(str(vertices3)+"\n")
+                                                                    f.write(str(c3)+"\n")
+                                                                    f.write(str(vertices3[i7-1]) + " " + str(vertices3[i8-1])+"\n")
+                                                                    f.write(str(vertices4)+"\n")
+                                                                    f.write(str(c4)+"\n")
+                                                                    f.write(str(vertices4[i9-1]) + " " + str(vertices4[i10-1])+"\n")
+                                                                    f.write(str(vertices5)+"\n")
+                                                                    f.write(str(c5)+"\n")
+                                                                    f.write(str(vertices5[i11-1]) + " " + str(vertices5[i12-1])+"\n")
+                                                                    f.write(str(vertices6)+"\n")
+                                                                    f.write(str(c5)+"\n")
+                                                                    f.close()"""
+                                                                    print("END")
+
+                                                            totalcount += 1
+                                                            if totalcount%100000 == 0:
+                                                                print(totalcount)
+                                                            i14 += 1
+                                                        i13 += 1
+                                                    i12 += 1
+                                                i11 += 1
+                                            i10 += 1
+                                        i9 += 1
+                                    i8 += 1
+                                i7 += 1
+                            i6 += 1
+                        i5 += 1
+                    i4 += 1
+                i3 += 1
+            i2 += 1
+        i1 += 1
+
+    print("Number of valid contractions found:", n_valid)
+    print("Total number of contractions checked:", totalcount)
+
+def check16_1_10_t0(adj, maxid, check_which=True):
+    vertices = list(adj.keys())
+    totalcount = 0
+    n_valid = 0
+
+    req1 = [(2,9), (3,10), (4,11), (11,2), (9,10), (10,11), (2,3), (11,12)]
+    req2 = [(15,6), (16,7), (1,8), (8,15), (14,15), (7,8), (15,16), (16,1)]
+    excl = [(13,3), (13,4), (13,14), (13,7), (13,6), (13,12)]
+
+    for (r1, r2) in req1:
+        a1 = adj.copy()
+        c1, max1 = contract(a1, maxid, r1, r2)
+        vertices1 = list(c1.keys())
+        for (r3, r4) in req2:
+            a2 = a1.copy()
+            c2, max2 = contract(a2, max1, r3, r4)
+            vertices2 = list(c2.keys())
+            i5 = 1
+            while i5 <= len(vertices2):
+                i6 = i5+1
+                while i6 <= len(vertices2):
+                    a3 = a2.copy()
+                    if vertices2[i6-1] not in list(a3[vertices2[i5-1]]) or vertices2[i6-1] == 13:
+                        i6 += 1
+                        continue
+                    #if vertices2[i5-1] == 13 or vertices2[i6-1] == 13:
+                    #    i6 += 1
+                    #    continue
+                    #if (vertices2[i5-1], vertices2[i6-1]) in req1 or (vertices2[i5-1], vertices2[i6-1]) in req2 or (vertices2[i6-1], vertices2[i5-1]) in req1 or (vertices2[i6-1], vertices2[i5-1]):
+                    #    i6 += 1
+                    #    continue
+                    c3, max3 = contract(a3, max2, vertices2[i5-1], vertices2[i6-1])
+                    vertices3 = list(c3.keys())
+                    i7 = 1
+                    while i7 <= len(vertices3):
+                        i8 = i7+1
+                        while i8 <= len(vertices3):
+                            a4 = a3.copy()
+                            if vertices3[i8-1] not in list(a4[vertices3[i7-1]]):
+                                i8 += 1
+                                continue
+                            c4, max4 = contract(a4, max3, vertices3[i7-1], vertices3[i8-1])
+                            vertices4 = list(c4.keys())
+                            i9 = 1
+                            while i9 <= len(vertices4):
+                                i10 = i9+1
+                                while i10 <= len(vertices4):
+                                    a5 = a4.copy()
+                                    if vertices4[i10-1] not in list(a5[vertices4[i9-1]]):
+                                        i10 += 1
+                                        totalcount += 1
+                                        if totalcount%100000 == 0:
+                                            print(totalcount)
+                                        continue
+                                    c5, max5 = contract(a5, max4, vertices4[i9-1], vertices4[i10-1])
+                                    vertices5 = list(c5.keys())
+                                    i11 = 1
+                                    while i11 <= len(vertices5):
+                                        i12 = i11+1
+                                        while i12 <= len(vertices5):
+                                            a6 = a5.copy()
+                                            if vertices5[i12-1] not in list(a6[vertices5[i11-1]]):
+                                                i12 += 1
+                                                totalcount += 1
+                                                if totalcount%100000 == 0:
+                                                    print(totalcount)
+                                                continue
+                                            c6, max6 = contract(a6, max5, vertices5[i11-1], vertices5[i12-1])
+                                            vertices6 = list(c6.keys())
+                                            i13 = 1
+                                            while i13 <= len(vertices6):
+                                                i14 = i13+1
+                                                while i14 <= len(vertices6):
+                                                    a7 = a6.copy()
+                                                    if vertices[i14-1] not in list(a7[vertices6[i13-1]]):
+                                                        i14 += 1
+                                                        totalcount +=1
+                                                        if totalcount%100000 == 0:
+                                                            print(totalcount)
+                                                        continue
+                                                    c7, max7 = contract(a7, max6, vertices6[i13-1], vertices6[i14-1])
+                                                    vertices7 = list(c7.keys())
+
+                                                    if check6regularity(c7):
+                                                        n_valid += 1
+                                                        if check_which:
+                                                            if is_cycle(complement(c7)):
+                                                                print("T9")
+                                                            else:
+                                                                print("T0")
+                                                        else:
+                                                            print("START")
+                                                            print(vertices)
+                                                            print(r1, r2)
+                                                            print(vertices1)
+                                                            print(c1)
+                                                            print(r3, r4)
+                                                            print(vertices2)
+                                                            print(c2)
+                                                            print(vertices2[i5-1], vertices2[i6-1])
+                                                            print(vertices3)
+                                                            print(c3)
+                                                            print(vertices3[i7-1], vertices3[i8-1])
+                                                            print(vertices4)
+                                                            print(c4)
+                                                            print(vertices4[i9-1], vertices4[i10-1])
+                                                            print(vertices5)
+                                                            print(c5)
+                                                            print(vertices5[i11-1], vertices5[i12-1])
+                                                            print(vertices6)
+                                                            print(c6)
+                                                            print(vertices6[i13-1], vertices6[i14-1])
+                                                            print(vertices7)
+                                                            print(c7)
+                                                            """randfilename = ''.join(random.choice("abcdefghijklmnopqrstuvwxyz0123456789") for _ in range(15))
+                                                            f = open(randfilename+".txt", "w")
+                                                            f.write(str(vertices)+"\n")
+                                                            f.write(str(vertices[i1-1]) + " " + str(vertices[i2-1])+"\n")
+                                                            f.write(str(vertices1)+"\n")
+                                                            f.write(str(c1)+"\n")
+                                                            f.write(str(vertices1[i3-1]) + " " + str(vertices1[i4-1])+"\n")
+                                                            f.write(str(vertices2)+"\n")
+                                                            f.write(str(c2)+"\n")
+                                                            f.write(str(vertices2[i5-1]) + " " + str(vertices2[i6-1])+"\n")
+                                                            f.write(str(vertices3)+"\n")
+                                                            f.write(str(c3)+"\n")
+                                                            f.write(str(vertices3[i7-1]) + " " + str(vertices3[i8-1])+"\n")
+                                                            f.write(str(vertices4)+"\n")
+                                                            f.write(str(c4)+"\n")
+                                                            f.write(str(vertices4[i9-1]) + " " + str(vertices4[i10-1])+"\n")
+                                                            f.write(str(vertices5)+"\n")
+                                                            f.write(str(c5)+"\n")
+                                                            f.write(str(vertices5[i11-1]) + " " + str(vertices5[i12-1])+"\n")
+                                                            f.write(str(vertices6)+"\n")
+                                                            f.write(str(c5)+"\n")
+                                                            f.close()"""
+                                                            print("END")
+
+                                                    totalcount += 1
+                                                    if totalcount%100000 == 0:
+                                                        print(totalcount)
+                                                    i14 += 1
+                                                i13 += 1
+                                            i12 += 1
+                                        i11 += 1
+                                    i10 += 1
+                                i9 += 1
+                            i8 += 1
+                        i7 += 1
+                    i6 += 1
+                i5 += 1
+
+    print("Number of valid contractions found:", n_valid)
+    print("Total number of contractions checked:", totalcount)
+
 def complement(adj):
     vertices = list(adj.keys())
     newadj = {}
@@ -503,13 +827,15 @@ adj = {1:{2,4,5,11,12,3}, 2:{1,3,5,6,10,12}, 3:{1,2,4,6,10,11}, 4:{1,5,7,8,3,6},
 
 #checkall4contractions(adj, maxid)
 #checkall3contractions(adj, maxid, check_which=True)
+#checkall5contractions(adj, maxid)
 
 # T(3, 4, 1)
 maxid = 12
-adj = {1:{2,4,5,10,11,3}, 2:{1,5,6,3,11,12}, 3:{1,2,6,4,10,12}, 4:{1,5,7,8,3,6}, 5:{1,2,4,6,8,9}, 6:{2,3,4,5,7,9}, 7:{4,7,10,11,6,9}, 
+adj = {1:{2,4,5,10,11,3}, 2:{1,5,6,3,11,12}, 3:{1,2,6,4,10,12}, 4:{1,5,7,8,3,6}, 5:{1,2,4,6,8,9}, 6:{2,3,4,5,7,9}, 7:{4,8,10,11,6,9}, 
        8:{4,5,7,9,11,12}, 9:{5,6,7,8,10,12}, 10:{7,3,11,1,9,12}, 11:{10,7,1,2,12,8}, 12:{8,9,10,11,2,3}}
 
-#checkall4contractions(adj, maxid, check_which=True)
+#checkall3contractions(adj, maxid, check_which=True)
+#checkall4contractions(adj, maxid, check_which=False)
 
 # T(13, 1, 4)
 maxid = 13
@@ -533,6 +859,7 @@ adj = {1:{2,11,12,14,4,5}, 2:{1,3,12,13,5,6}, 3:{2,4,13,14,6,7}, 4:{3,5,1,14,7,8
        8:{7,9,4,5,11,12}, 9:{8,10,5,6,12,13}, 10:{9,11,6,7,13,1}, 11:{10,1,12,7,8,14}, 12:{11,13,8,9,1,2}, 13:{12,14,9,10,2,3}, 14:{1,13,10,11,3,4}}
 
 #checkall5contractions(adj, maxid, check_which=True)
+#checkall6contractions(adj, maxid, check_which=False)
 
 # T(15, 1, 4)
 maxid = 15
@@ -561,13 +888,21 @@ adj = {1:{2,7,8,6,10,11}, 2:{1,3,8,9,11,12}, 3:{2,4,9,10,7,12}, 4:{3,5,10,11,7,8
        7:{1,8,2,6,10,11}, 8:{1,2,7,9,4,5}, 9:{2,3,8,10,5,6}, 10:{3,4,9,11,1,6}, 11:{4,5,10,12,1,2}, 12:{5,6,7,11,2,3}}
 
 #checkall3contractions(adj, maxid, check_which=True)
+#checkall4contractions(adj, maxid)
 
 # T(7, 2, 4)
 maxid = 14
 adj = {1:{2,8,9,7,11,12}, 2:{1,3,9,10,12,13}, 3:{2,4,10,11,13,14}, 4:{3,5,11,12,8,14}, 5:{4,6,12,13,8,9}, 6:{5,7,13,14,9,10}, 7:{1,6,14,8,10,11},
        8:{1,9,4,5,14,7}, 9:{1,2,8,10,5,6}, 10:{2,3,9,11,6,7}, 11:{3,4,10,12,1,7}, 12:{1,2,13,5,4,11}, 13:{12,2,3,14,6,5}, 14:{3,4,8,7,6,13}}
 
-checkall5contractions(adj, maxid, check_which=True)
+#checkall5contractions(adj, maxid, check_which=True)
+
+# T(16, 1, 10)
+maxid = 16
+adj = {1:{2,7,8,10,11,16}, 2:{1,3,8,9,11,12}, 3:{2,4,9,10,12,13}, 4:{3,5,10,11,13,14}, 5:{4,6,11,12,14,15}, 6:{5,7,12,13,15,16}, 7:{1,6,8,13,14,16}, 8:{1,2,7,9,14,15}, 
+       9:{2,3,8,10,15,16}, 10:{1,3,4,9,11,16}, 11:{1,2,4,5,10,12}, 12:{2,3,5,6,11,13}, 13:{3,4,6,7,12,14}, 14:{4,5,7,8,13,15}, 15:{5,6,8,9,14,16}, 16:{1,6,7,9,10,15}}
+
+check16_1_10_t0(adj, maxid, check_which=True)
 
 maxid7 = 7
 t7 = {1:{2,5,6,7,3,4}, 2:{1,3,6,7,4,5}, 3:{2,4,7,1,5,6}, 4:{3,5,1,2,6,7}, 5:{4,6,2,3,1,7}, 6:{5,7,3,4,1,2}, 7:{6,1,4,5,2,3}}
